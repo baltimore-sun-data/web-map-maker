@@ -1,0 +1,1014 @@
+global:
+    mapzen_api_key: mapzen-CG4Htn6
+    road_color: '#c8c8c1'
+    water_color: '#c3d5dd'
+    labels_visible: true
+    landuse_style: polygons
+
+labels-global:
+    - &freeway_labels         false
+    - &city_labels            false
+
+quiet-la-colors:
+    text:
+        - &text             '#757575'
+    areas:
+        - &background       '#efebe7'
+        - &land             '#f4f2ed'
+        - &forest           rgb(222,224,213)
+        - &grass            '#e9ebe0'   # lighten(@forest, 5%)
+        - &park             '#e1e3da'   # lighten(@forest, 3%)
+        - &cemetery         '#e4e5dc'
+        - &hospital         '#e8e4e8'
+        - &school           '#e9e5eb'   # lighten(#D9D5E3, 5%)
+        - &stadium          '#d9cdc1'
+        - &beach            '#ebe2cd'
+        - &runway           '#bfbebd'
+        - &aerodrome        '#d6d6d6'
+        - &building         '#e0ddda'
+        - &building_outline 'rgba(0,0,0,0)'
+        - &building_top     'rgba(230,230,230,1)'
+        - &earth2_e    '#d8d3ca'           # urban early
+        - &earth2_e2   '#d4cfc6'           # urban early fade in
+        - &earth2_e3   '#dbd8d3'           # urban early fade in 3
+        - &earth2_ev   true                # urban early visibility
+
+        - &water            '#c3d5dd'
+        - &residential      '#efede8'   # @land * 0.98
+        - &commercial       '#edebe6'   # @land * 0.97
+        - &industrial       '#eae6e4'   # @land * 0.96
+        - &military         '#e8e4e1'   # @land * 0.95
+        - &parking          '#eeeeee'
+        - &pedestrian       '#e7e7e7'   # @parking * 0.97
+        - &place_of_worship '#e3c5c9'
+        - &admin            '#000000'
+    borders:
+        - &county_brdr      '#8a7c7c'
+        - &california_brdr  '#827676'
+        - &nation_brdr      '#a7a8ab'
+        - &state_brdr       '#cbced1'
+    roads:
+        - &road             '#c8c8c1'
+        - &road_text        '#9C9C9C'
+        - &rail_line        '#c8c8c1'
+        - &aeroway          '#dddddd'
+
+sources:
+    mapzen:
+        type: TopoJSON
+        url: https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson
+        url_params:
+            api_key: global.mapzen_api_key
+        rasters: [normals]
+    normals:
+        type: Raster
+        url: https://tile.mapzen.com/mapzen/terrain/v1/normal/{z}/{x}/{y}.png
+        max_zoom: 15
+        url_params:
+            api_key: global.mapzen_api_key
+
+textures:
+    shields:
+        sprites:
+            # define sprites: [x origin, y origin, width, height]
+            'US:I_1char': [0, 0, 220, 220]
+            'US:I_2char': [0, 0, 220, 220]
+            'US:I_3char': [220, 0, 220, 220]
+            'US:I_4char': [440, 0, 220, 220]
+            'US:I_5char': [660, 0, 220, 220]
+            'US:US_1char': [0, 440, 220, 220]
+            'US:US_2char': [0, 440, 220, 220]
+            'US:US_3char': [220, 440, 220, 220]
+            'US:US_4char': [440, 440, 220, 220]
+            'US:US_5char': [660, 440, 220, 220]
+            'US:CA_1char': [0, 220, 220, 220]
+            'US:CA_2char': [0, 220, 220, 220]
+            'US:CA_3char': [220, 220, 220, 220]
+            'US:CA_4char': [440, 220, 220, 220]
+            'US:CA_5char': [660, 220, 220, 220]
+            'US:CA:CR_1char': [0, 660, 220, 220]
+            'US:CA:CR_2char': [0, 660, 220, 220]
+            'US:CA:CR_3char': [220, 660, 220, 220]
+            'US:CA:CR_4char': [440, 660, 220, 220]
+            'US:CA:CR_5char': [660, 660, 220, 220]
+            'MX_1char': [0, 1100, 220, 220]
+            'MX_2char': [0, 1100, 220, 220]
+            'MX_3char': [220, 1100, 220, 220]
+            'MX_4char': [440, 1100, 220, 220]
+            'MX_5char': [660, 1100, 220, 220]
+            'MEX_1char': [0, 1100, 220, 220]
+            'MEX_2char': [0, 1100, 220, 220]
+            'MEX_3char': [220, 1100, 220, 220]
+            'MEX_4char': [440, 1100, 220, 220]
+            'MEX_5char': [660, 1100, 220, 220]
+            'us_state_1char': [0, 880, 220, 220]
+            'us_state_2char': [0, 880, 220, 220]
+            'us_state_3char': [220, 880, 220, 220]
+            'us_state_4char': [440, 880, 220, 220]
+            'us_state_5char': [660, 880, 220, 220]
+            'generic_shield_1char': [0, 1320, 220, 220]
+            'generic_shield_2char': [0, 1320, 220, 220]
+            'generic_shield_3char': [220, 1320, 220, 220]
+            'generic_shield_4char': [440, 1320, 220, 220]
+            'generic_shield_5char': [660, 1320, 220, 220]
+
+        url: images/shields.png
+
+cameras:
+    perspective:
+        type: flat
+
+styles:
+    dashed-lines:
+        base: lines
+        dash: [4,1]
+    text-blend-order:
+        base: text
+        blend_order: 1
+    shields:
+        base: points
+        texture: shields
+    terrain:
+        base: polygons
+        lighting: false
+        raster: normal
+        shaders:
+            uniforms:
+                # u_envmap: images/relief-shading-environment-map.jpg
+                u_envmap: images/draw-test9-light.jpg
+                u_contrast: 1.
+                u_brightness: 1.
+            blocks:
+                global: |
+                    // Simplified view-independent environment map
+                    vec4 terrainEnvmap (in sampler2D _tex, in vec3 _normal) {
+                        const vec3 eye = vec3(0.,0.,-1.);
+                        vec3 r = reflect(eye, _normal);
+                        r.z += 1.;
+                        float m = 2. * length(r);
+                        vec2 uv = r.xy / m + .5;
+                        return texture2D(_tex, uv);
+                    }
+                    const float e = 2.71828;
+                color: |
+                    // scale up normals with a function
+                    // https://www.desmos.com/calculator/bv4mzh8erz
+                    //float scale = 10./(u_map_position.z-.7) + 1.8;
+                    float scale1 = 20./(u_map_position.z) + 1.5;
+                    normal.z /= scale1; // turn terrain exaggeration up/down
+                    // fade out spheremap normals with a function
+                    // https://www.desmos.com/calculator/ptgkzcnfyc
+                    float m = 3.5 * (u_map_position.z - 0.8) * pow(e, u_map_position.z * -.29);
+                    m = clamp(m, 0., 1.5);
+                    color = terrainEnvmap(u_envmap, normal);
+                    // Apply contrast
+                    float contrast = m;
+                    color.rgb = ((color.rgb - 0.5) * max(contrast, 0.)) + 0.5;
+                    // Apply brightness
+                    float brightness = .5 - m * .5;
+                    color.rgb += brightness;
+                    color *= v_color; // apply layer color
+
+
+layers:
+    earth:
+        data: { source: mapzen, layer: earth }
+        draw:
+            terrain:
+                visible: false
+                order: 0
+                color: *background
+            polygons:
+                visible: true
+                order: 0
+                color: *background
+    ocean-water:
+        data: { source: mapzen, layer: water }
+        # don't filter ocean polys because OSM ocean split tiles don't have coherent areas
+        filter: { kind: ocean }
+        draw:
+            polygons:
+                order: function() { return feature.sort_rank; }
+                color: global.water_color
+                join: round
+        water_boundaries-ocean:
+            filter: { boundary: true, $zoom: { min: 10 } }
+            draw:
+                lines:
+                    order: function() { return feature.sort_rank; }
+                    color: global.water_color
+                    width: [[10,1px],[12,2px]]
+                    join: round
+    water-not-ocean:
+        data: { source: mapzen, layer: water }
+        filter: { not: { kind: [ocean,swimming_pool,playa] }, $zoom: { min: 1 } }
+        draw:
+            polygons:
+                order: function() { return feature.sort_rank; }
+                color: global.water_color
+        inland-water:
+            filter:
+                all:
+                    - kind: [lake, water, riverbank, reservoir, playa]
+            draw:
+                polygons:
+                    color: global.water_color
+        other-water-areas:
+            filter: { not: { kind: [lake, water, reservoir, playa] }, $zoom: { min: 11 }, area: { min: 100 } }
+            draw:
+                polygons:
+                    color: global.water_color
+        playas:
+            filter: { kind: playa, $zoom: {min: 6} }
+            draw:
+                polygons:
+                    color: global.water_color
+        water_boundaries-not-ocean:
+            filter:
+                all:
+                    - boundary: true
+                    - $zoom: { min: 13 }
+                any:
+                    - { $zoom: { min: 13 }, area: { min: 2000 } }
+                    - { $zoom: { min: 15 } }
+            draw:
+                lines:
+                    order: function() { return feature.sort_rank; }
+                    color: global.water_color
+                    width: [[13,1.0px],[16,1.5px],[18,2m]]
+                    join: round
+        river:
+            filter: { kind: [river,canal,stream,dam,ditch,drain], $zoom: { min: 13 } }
+            draw:
+                lines:
+                    order: function() { return feature.sort_rank; }
+                    color: global.water_color
+                    width: [[13,0.5px],[14,1.0px],[16,1.5px],[18,4m]]
+                    join: round
+
+    swimming-pools:
+        data: { source: mapzen, layer: water }
+        filter: { kind:[swimming_pool], $zoom: { min: 17 } }
+        draw:
+            polygons:
+                visible: true
+                order: function() { return feature.sort_rank; }
+                color: "#d1e1e8"
+
+    boundaries:
+        data: { source: mapzen, layer: boundaries }
+        draw:
+            lines:
+                order: function() { return feature.sort_rank; }
+        country:
+            filter:
+                any:
+                    - kind: country
+                    - kind_detail: 2
+            draw:
+                lines:
+                    color: *nation_brdr
+                    width: [[1, 0.5px], [2, 1.0px], [4, 1.5px], [9, 2.5px], [14, 3.5px], [16, 4.5px], [17, 14m]]
+                    dash: [2,1]
+            water:
+                filter: { maritime_boundary: true }
+                draw:
+                    lines:
+                        visible: false
+        disputed:
+            filter:
+                any:
+                    - kind: [disputed, line_of_control, indeterminate, indefinite]
+                    - kind_detail: 2,4,6,8
+            draw:
+                dashed-lines:
+                    color: *nation_brdr
+                    width: [[1, 0.5px], [2, 1.0px], [4, 1.5px], [9, 2.5px], [14, 3.5px], [16, 4.5px], [17, 14m]]
+            water:
+                filter: { maritime_boundary: true }
+                draw:
+                    lines:
+                        visible: false
+        region:
+            filter:
+                any:
+                    - type: state
+                    # territorial here is probably a hack
+                    - kind: [department, region, provincial, territorial]
+                    - kind_detail: 4
+            draw:
+                lines:
+                    color: [[6,*state_brdr],[7,*nation_brdr]]
+                    width: [[1, 0.25px], [2, 0.5px], [4, 1.5px], [9, 1.5px], [14, 2px], [16, 2.5px], [17, 7m]]
+            water:
+                filter: { maritime_boundary: true }
+                draw:
+                    lines:
+                        visible: false
+            early:
+                filter: { min_zoom: [0,3,4,5,6,7,8,9,10], $zoom: { max: 8 } }
+                draw:
+                    lines:
+                        visible: false
+        # county:
+        #     filter:
+        #         any:
+        #             - kind_detail: 6
+        #     draw:
+        #         lines:
+        #             color: *county_brdr
+        #             width: [[1, 0.5px], [2, 0.75px], [3, 1px], [5, 1.5px], [9, 3.5px], [14, 5.5px], [16, 6.5px], [17, 16m]]
+        #             order: 400
+        #     water:
+        #         filter: { maritime_boundary: true }
+        #         draw:
+        #             lines:
+        #                 visible: false
+    landuse:
+        data: { source: mapzen, layer: landuse }
+        draw:
+            polygons:
+                order: function() { return feature.sort_rank; }
+        aerodrome:
+            filter: {kind: [aerodrome, apron]}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *industrial
+                    order: 1
+        arena:
+            filter: {kind: arena}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *stadium
+                    order: 1
+        beach:
+            filter: {kind: beach}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *beach
+                    order: 1
+        cemetery:
+            filter: {kind: cemetery}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    order: 1
+                    color: *cemetery
+        college:
+            filter: {kind: college}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *school
+                    order: 1
+        commercial:
+            filter: {kind: [commercial, retail] }
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    order: 1
+                    color: *commercial
+        farm:
+            filter: {kind: [farm, farmland, farmyard] }
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *land
+                    order: 1
+        footway:
+            filter: {kind: footway}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *land
+                    order: 1
+        forest:
+            filter: {kind: [forest, wood, natural_forest, natural_wood]}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *forest
+        grass:
+            filter: {kind: [grass, meadow, scrub]}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    order: 1
+                    color: *grass
+        hospital:
+            filter: {kind: hospital}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *hospital
+                    order: 1
+        industrial:
+            filter: {kind: [industrial, quarry, substation, wastewater_plant]}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *industrial
+                    order: 1
+        kindergarten:
+            filter: {kind: kindergarten}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *school
+                    order: 1
+        military:
+            filter: {kind: military}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *military
+                    order: 1
+        park:
+            filter: {kind: [ common, dog_park, garden, golf_course, park, protected_area, national_park, natural_park, nature_reserve,
+                playground, pitch, recreation_ground, village_green, zoo] }
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *park
+                    order: 1
+        parking:
+            filter: {kind: parking }
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *background
+        pedestrian:
+            filter: {kind: pedestrian}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *pedestrian
+        pier:
+            filter: { kind: pier}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *background
+        place_of_worship:
+            filter: {kind: place_of_worship}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *place_of_worship
+        prison:
+            filter: {kind: prison}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *industrial
+        railway:
+            filter: {kind: railway}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *industrial
+        school:
+            filter: {kind: [school, university]}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *school
+        sports_center:
+            filter: {kind: [sports_center, sports_centre] }
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *stadium
+        stadium:
+            filter: {kind: stadium}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *stadium
+        urban_area:
+            filter: {kind: "urban area"}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *residential
+        wetland:
+            filter: {kind: wetland}
+            draw:
+                polygons:
+                    style: global.landuse_style
+                    color: *land
+
+    roads:
+        data: { source: mapzen, layer: roads }
+        filter:
+            not: { kind: rail }
+        draw:
+            lines:
+                interactive: true
+                order: function() { return feature.sort_rank; }
+                cap: round
+        highway:
+            filter: { kind: highway }
+            draw:
+                lines:
+                    order: 490
+                    #cap: [[0,butt],[15,round]]
+                    #join: round
+                    color: global.road_color
+                    width: [[6,0px],[8, 2px], [14, 5.5px], [15, 6.5px], [16, 7px], [17, 20m]]
+                    cap: round
+                    join: round
+            link:
+                filter: { is_link: true } # on- and off-ramps, etc
+                draw:
+                    lines:
+                        color: global.road_color
+                        width: [[8, 0.3px], [9, 0.4px], [12, 0.8px], [13, 1px], [14, 1.3px], [15, 2px], [16, 6m]]
+                        cap: round
+                        join: round
+                        outline:
+                            color: global.road_color
+                            width: 0px
+                early_link:
+                    filter: { $zoom: { max: 15 } }
+                    draw:
+                        lines:
+                            # except bridges and tunnels, their outlines should also self-sort
+                            order: 352
+                tunnel-link:
+                    filter: {is_tunnel: true, $zoom: {min: 13} }
+                    draw:
+                        lines:
+                            color: global.road_color
+                            outline:
+                                color: global.road_color
+            tunnel:
+                filter: {is_tunnel: true, $zoom: {min: 13} }
+                draw:
+                    lines:
+                        color: global.road_color
+                        outline:
+                            color: global.road_color
+            highway_bridge:
+                filter: {is_bridge: true}
+                draw:
+                    lines:
+                        cap: round
+                        outline:
+                            cap: butt
+        major_road:
+            filter: { kind: major_road }
+            draw:
+                lines:
+                    order: function() { return feature.sort_rank; }
+                    color: global.road_color
+                    width: [[8, 0.3px], [9, 0.4px], [12, 0.8px], [13, 1px], [14, 1.3px], [15, 2px], [16, 6m]]
+        minor_road:
+            filter: { kind: minor_road, not: { kind_detail: service } }
+            draw:
+                lines:
+                    order: function() { return feature.sort_rank; }
+                    color: global.road_color
+                    width: [[12,0px], [13, 0.15px], [14, 0.3px], [15, 1px], [16, 2m]]
+        service:
+            filter: { kind_detail: service }
+            draw:
+                lines:
+                    order: function() { return feature.sort_rank; }
+                    color: global.road_color
+                    width: 1m
+        airports:
+            filter: { kind: aeroway }
+            draw:
+                lines:
+                    color: *aeroway
+
+            taxiways:
+                filter: { kind_detail: taxiway }
+                draw:
+                    lines:
+                        width: [[13, 0px], [14, 2px], [17, 10px]]
+
+            runways:
+                filter: { kind_detail: runway }
+                draw:
+                    lines:
+                        width: [[11, 3px], [12, 5px], [13, 10px], [15, 75]]
+                        cap: square
+
+        labels:
+            visible: global.labels_visible
+            filter:
+                $zoom: { min: 7 }
+                not: { kind: [rail, aeroway], is_tunnel: true }
+
+            major_road:
+                filter: { kind: major_road, $zoom: { min: 14 } }
+                draw:
+                    text:
+                        text_source: name
+                        offset: [0px, -14px]
+                        order: function() { return feature.sort_rank; }
+                        repeat_distance: 200px
+                        priority: 3
+                        font:
+                            fill: '#666'
+                            family: 'Benton Gothic Regular, Arial'
+                            size: 26px
+                            stroke: { color: *background, width: 4 }
+
+
+            minor_road:
+                filter: { kind: minor_road, $zoom: { min: 17 } }
+                draw:
+                    text:
+                        text_source: name
+                        offset: [0px, -14px]
+                        priority: 5
+                        order: function() { return feature.sort_rank; }
+                        font:
+                            fill: '#666'
+                            family: 'Benton Gothic Regular, Arial'
+                            size: 26px
+                            stroke: {color: *background, width: 4}
+
+        shields:
+            visible: global.labels_visible
+            filter: { network: true, shield_text: true, $zoom: { min: 7, max: 11 }, kind_detail: motorway }
+            draw:
+                shields:
+                    sprite:
+                        function() {
+                            var n = feature.network;
+                            if (feature.network == 'US:I' || feature.network == 'US:US' || feature.network == 'US:CA' || feature.network == 'US:CA:CR' || feature.network == 'MX' || feature.network == 'MEX') {
+                                return (feature.network + '_' + feature.shield_text.length + 'char');
+                            } else if (n == 'US:AL' || n == 'US:AK' || n == 'US:AZ' || n == 'US:AR' || n == 'US:CO' || n == 'US:CT' || n == 'US:DE' || n == 'US:FL' || n == 'US:GA' || n == 'US:HI' || n == 'US:ID' || n == 'US:IL' || n == 'US:IN' || n == 'US:IA' || n == 'US:KS' || n == 'US:KY' || n == 'US:LA' || n == 'US:ME' || n == 'US:MD' || n == 'US:MA' || n == 'US:MI' || n == 'US:MN' || n == 'US:MS' || n == 'US:MO' || n == 'US:MT' || n == 'US:NE' || n == 'US:NV' || n == 'US:NH' || n == 'US:NJ' || n == 'US:NM' || n == 'US:NY' || n == 'US:NC' || n == 'US:ND' || n == 'US:OH' || n == 'US:OK' || n == 'US:OR' || n == 'US:PA' || n == 'US:RI' || n == 'US:SC' || n == 'US:SD' || n == 'US:TN' || n == 'US:TX' || n == 'US:UT' || n == 'US:VT' || n == 'US:VA' || n == 'US:WA' || n == 'US:WV' || n == 'US:WI' || n == 'US:WY') {
+                                return ('us_state_' + feature.shield_text.length + 'char');
+                            } else {
+                                return ('generic_shield_' + feature.shield_text.length + 'char');
+                            }
+                        }
+                    # sprite_default: 'US:CA'
+                    size: 80px
+                    cull_from_tile: true
+                    text:
+                        anchor: center
+                        repeat_distance: 200px
+                        text_source: shield_text
+                        font:
+                            family: 'Benton Gothic Regular, Arial'
+                            size: 22px
+                            fill: '#9C9C9C'
+            # thin-out shields at low-zoom
+            # thinning:
+            #     filter: { $zoom: { max: 11 } }
+            #     draw:
+            #         shields:
+            #             repeat_distance: 75px
+        small-shields:
+            visible: global.labels_visible
+            filter: { network: true, shield_text: true, $zoom: { min: 11 } }
+            draw:
+                shields:
+                    repeat_distance: 300px
+                    sprite: function() { return (feature.network + '_' +
+                            feature.shield_text.length +
+                            'char'); }
+                    # sprite_default: 'US:CA'
+                    size: 80px
+                    cull_from_tile: true
+                    text:
+                        anchor: center
+                        # repeat_distance: 600px
+                        text_source: shield_text
+                        font:
+                            family: 'Benton Gothic Regular, Arial'
+                            size: 22px
+                            fill: '#9C9C9C'
+            # thin-out shields at low-zoom
+            thinning:
+                filter: { $zoom: { max: 11 } }
+                draw:
+                    shields:
+                        repeat_distance: 600px
+
+    buildings:
+        data: { source: mapzen, layer: buildings }
+        filter: { $zoom: { min: 13 }}
+        draw:
+            polygons:
+                visible: false
+                order: function() { return feature.sort_rank; }
+                color: *building
+            lines:
+                visible: false
+                order: function() { return feature.sort_rank; }
+                color: "#c8c8c1"
+                width: [[17,0],[18,0.5m],[20,0.25m]]
+                style: lines
+    transit:
+        visible: false
+        data: { source: mapzen , layer: transit }
+        filter: {not:{ kind: [platform]}, $zoom: { min: 11 }}
+        draw:
+            lines:
+                # interactive: true
+                order: 499
+        railway:
+            filter: { kind: [railway, train]}
+            draw:
+                lines:
+                    color: *rail_line
+                    width: 2px
+        light_rail:
+            filter: { kind: [light_rail,tram, subway], $zoom: { min: 11 }}
+            draw:
+                lines:
+                    color: function() {
+                        if(feature.ref == '806') { return '#A4BED7';}
+                        else if (feature.ref == '801') { return '#6B9CC2'; }
+                        else if (feature.ref == '804') { return '#FADA85'; }
+                        else if (feature.ref == '803') { return '#759371'; }
+                        else if (feature.ref == '805') { return '#BCADD0'; }
+                        else if (feature.ref == '802') { return '#DD9894'; }
+                        else { return feature.colour; } }
+                    width: [[11, 5px],[15, 3.5px ],[18, 5m]]
+                    cap: round
+                    z: function() { if(feature.colour == 'purple') { return 1;} else if (feature.colour == 'red') { return 2; } }
+
+    transit-overlay-station-labels:
+        visible: false
+        data: { source: mapzen, layer: [pois] }
+        station-train-subway:
+            filter: { kind: [station, train-station, train_station], $zoom: { min: 11 } }
+            stations:
+                draw:
+                    points:
+                        # priority: 500
+                        size: [[11,14px],[15,20px],[18,40m],[19,70m]]
+                        color: function() { if (feature.name == 'Universal City') { return '#DD9894'; } else if (feature.name == '1st Street') { return '#6B9CC2'; } else if (feature.name == 'Downtown Long Beach') { return '#6B9CC2'; } else if (feature.name == '5th Street') { return '#6B9CC2'; } else if (feature.name == 'Anaheim Street') { return '#6B9CC2'; } else if (feature.name == 'Vermont/Beverly') { return '#DD9894'; } else if (feature.name == 'Vermont/Santa Monica') { return '#DD9894'; } else if (feature.name == 'Hollywood/Western') { return '#DD9894'; } else if (feature.name == 'Wilshire/Normandie') { return '#BCADD0'; } else if (feature.name == 'Wilshire/Western') { return '#BCADD0'; } else if (feature.name == 'Hollywood/Highland') { return '#DD9894'; } else if (feature.name == 'Hollywood/Vine') { return '#DD9894'; } else if (feature.name == 'Westlake/MacArthur Park') { return '#DD9894'; } else if (feature.name == 'Memorial Park') { return '#FFD700'; } else if (feature.name == 'Arcadia') { return '#FFD700'; } else if (feature.name == 'La Cienega/Jefferson') { return '#A4BED7'; } else if (feature.name == 'Civic Center/Grand Park') { return '#DD9894'; } else if (feature.name == 'Pershing Square') { return '#DD9894'; } else if (feature.name == '7th Street/Metro Center') { return '#DD9894'; } else if (feature.name == 'Los Angeles Union Station') { return '#DD9894'; } else if (feature.name == 'Wilshire/Vermont') { return '#DD9894'; } else if (feature.name == 'Sierra Madre Villa') { return '#FFD700'; } else if (feature.name == 'Little Tokyo/Arts District') { return '#FFD700'; } else if (feature.name == 'Pico/Aliso') { return '#FFD700'; } else if (feature.name == 'Mariachi Plaza') { return '#FFD700'; } else if (feature.name == 'Soto') { return '#FFD700'; } else if (feature.name == 'East Los Angeles Civic Center') { return '#FFD700'; } else if (feature.name == 'Atlantic') { return '#FFD700'; } else if (feature.name == 'Mariposa') { return '#759371'; } else if (feature.name == 'El Segundo') { return '#759371'; } else if (feature.name == 'Redondo Beach') { return '#759371'; } else if (feature.name == 'Chinatown') { return '#FFD700'; } else if (feature.name == 'Lincoln/Cypress') { return '#FFD700'; } else if (feature.name == 'Heritage Square') { return '#FFD700'; } else if (feature.name == 'Southwest Museum') { return '#FFD700'; } else if (feature.name == 'Vermont/Athens') { return '#759371'; } else if (feature.name == 'Avalon') { return '#759371'; } else if (feature.name == 'Lake') { return '#FFD700'; } else if (feature.name == 'Allen') { return '#FFD700'; } else if (feature.name == 'Lake') { return '#FFD700'; } else if (feature.name == 'Del Mar') { return '#FFD700'; } else if (feature.name == 'Fillmore') { return '#FFD700'; } else if (feature.name == 'South Pasadena') { return '#FFD700'; } else if (feature.name == 'North Hollywood') { return '#DD9894'; } else if (feature.name == 'Westwood/Rancho Park') { return '#A4BED7'; } else if (feature.name == 'Lakewood Boulevard') { return '#759371'; } else if (feature.name == 'Vermont/Sunset') { return '#DD9894'; } else if (feature.name == 'Highland Park') { return '#FFD700'; } else if (feature.name == 'Indiana') { return '#FFD700'; } else if (feature.name == 'Maravilla') { return '#FFD700'; } else if (feature.name == 'Palms') { return '#A4BED7'; } else if (feature.name == 'Expo/La Brea') { return '#A4BED7'; } else if (feature.name == 'Culver City') { return '#A4BED7'; } else if (feature.name == '26th Street/Bergamot') { return '#A4BED7'; } else if (feature.name == 'Douglas') { return '#759371'; } else if (feature.name == 'Crenshaw') { return '#759371'; } else if (feature.name == 'Hawthorne/Lennox') { return '#759371'; } else if (feature.name == 'Aviation/LAX') { return '#759371'; } else if (feature.name == 'San Pedro Street') { return '#6B9CC2'; } else if (feature.name == 'Grand') { return '#6B9CC2'; } else if (feature.name == 'Downtown Santa Monica') { return '#A4BED7'; } else if (feature.name == 'Lakewood Boulevard') { return '#759371'; } else if (feature.name == 'Long Beach Boulevard') { return '#759371'; } else if (feature.name == 'Pacific Avenue') { return '#6B9CC2'; } else if (feature.name == 'Jefferson / USC') { return '#A4BED7'; } else if (feature.name == 'LATTC/Ortho Institute') { return '#A4BED7'; } else if (feature.name == 'Expo Park/USC') { return '#A4BED7'; } else if (feature.name == 'Harbor Freeway') { return '#759371'; } else if (feature.name == 'Norwalk') { return '#759371'; } else if (feature.name == 'Willowbrook/Rosa Parks') { return '#6B9CC2'; } else if (feature.name == 'Pacific Coast highway') { return '#6B9CC2'; } else if (feature.name == 'Willow Street') { return '#6B9CC2'; } else if (feature.name == 'Wardlow') { return '#6B9CC2'; } else if (feature.name == 'Del Amo') { return '#6B9CC2'; } else if (feature.name == 'Artesia') { return '#6B9CC2'; } else if (feature.name == 'Compton') { return '#6B9CC2'; } else if (feature.name == '103rd Street/Watts Towers') { return '#6B9CC2'; } else if (feature.name == 'Firestone') { return '#6B9CC2'; } else if (feature.name == 'Florence') { return '#6B9CC2'; } else if (feature.name == 'Slauson') { return '#6B9CC2'; } else if (feature.name == 'Vernon') { return '#6B9CC2'; } else if (feature.name == 'Washington') { return '#6B9CC2'; } else if (feature.name == 'Pico') { return '#6B9CC2'; } else if (feature.name == '17th Street/SMC') { return '#A4BED7'; } else if (feature.name == 'Duarte/City of Hope') { return '#FFD700'; } else if (feature.name == 'Azusa Downtown') { return '#FFD700'; } else if (feature.name == 'Irwindale') { return '#FFD700'; } else if (feature.name == 'APU/Citrus College') { return '#FFD700'; } else if (feature.name == 'Expo/Sepulveda') { return '#A4BED7'; } else if (feature.name == 'Expo/Bundy') { return '#A4BED7'; } else if (feature.name == 'Monrovia') { return '#FFD700'; } else if (feature.name == 'Expo/Western') { return '#A4BED7'; } else if (feature.name == 'Expo/Crenshaw') { return '#A4BED7'; } else if (feature.name == 'Expo/Vermont') { return '#A4BED7'; } else if (feature.name == 'Farmdale') { return '#A4BED7'; } else { return '#c8c8c1'; } }
+
+    # water_label:
+    #     data: { source: mapzen, layer: places }
+    #     filter: { kind: [sea, ocean] }
+    #     draw:
+    #         text:
+    #             text_source: name
+    #             font:
+    #                 family: 'Benton Gothic Regular, Arial'
+    #                 size: 12px
+    #                 fill: '#757575'
+    #                 # stroke: { color: [255,255,255,0.7], width:1px }
+    #                 stroke: { color: '#ffffff', width:1 }
+
+
+    places:
+        data: { source: mapzen, layer: places }
+        filter: { not: { kind: [ocean, sea] } }
+        draw:
+            text-blend-order:
+                visible: false    # labels are enabled by each layer below
+                font:
+                    family: 'Benton Gothic Regular, Arial'
+                    # weight: 500
+                    fill: '#9C9C9C'
+
+        country-z2:
+            filter:
+                all:
+                    - kind: [country]
+                    - $zoom: [2]
+                    - name: ["United States of America","Brasil","中华人民共和国","Россия","Canada","Kalaallit Nunaat","Ísland","Australia","India","日本","Guam","Indonesia","South Africa","مصر","Nigeria","Kenya"]
+            draw:
+                text-blend-order:
+                    priority: 3
+                    visible: global.labels_visible
+                    text_source: function() { return feature["name:en"] || feature["name"]; }
+                    font:
+                        fill: '#9C9C9C'
+                        weight: 200
+                        size: 26px
+                        stroke: { color: *background, width: 4 }
+        country-z3:
+            filter: { name: true, population: true, kind: [country], $zoom: [3] }
+            draw:
+                text-blend-order:
+                    priority: 3
+                    visible: global.labels_visible
+                    text_source: function() { if (feature["name:en"] == "People's Republic of China") { return "China"; } else { return feature["name:en"] || feature["name"]; }}
+                    font:
+                        fill: '#9C9C9C'
+                        weight: 200
+                        size: 26px
+                        stroke: { color: *background, width: 4 }
+            early-ones:
+                # US, Brazil, China, Russia, Canada, Greenland, Iceland, Australia, India, Japan, Guam, Indonesia, South Africa, Egypt, Nigeria, Kenya
+                filter: { not: { name: ["United States of America","Brasil","中华人民共和国","España","Norge","Россия","Canada","Kalaallit Nunaat","Ísland","Australia","India","日本","Guam","Indonesia","South Africa","مصر","Nigeria","Kenya"] }, $zoom: {min: 3, max: 4} }
+                draw:
+                    text-blend-order:
+                        visible: global.labels_visible
+        country-z4:
+            filter: { name: true, population: true, kind: [country], $zoom: [4] }
+            draw:
+                text-blend-order:
+                    priority: 3
+                    visible: global.labels_visible
+                    text_source: function() { if (feature["name:en"] == "People's Republic of China") { return "China"; } else { return feature["name:en"] || feature["name"]; }}
+                    font:
+                        fill: '#9C9C9C'
+                        weight: 200
+                        size: 26px
+                        stroke: { color: *background, width: 4 }
+            early-ones-z4:
+                filter: { name: [Nederland,Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,Crna Gora,Македонија,The Gambia,Burundi,Swaziland,الإمارات العربية المتحدة,العراق,Singapore,El Salvador,Belize,Trinidad and Tobago, Saint Lucia, Montserrat,Anguilla,República Dominicana,Bahamas,British Virgin Islands,Antigua and Barbuda,Grenada,Sint Maarten,Saint Kitts and Nevis,Cayman Islands,België - Belgique - Belgien], $zoom: {min: 4, max: 5} }
+                draw:
+                    text-blend-order:
+                        visible: global.labels_visible
+        country-z5:
+            filter:
+                all:
+                    - name: true
+                    - population: true
+                    - kind: [country]
+                    - $zoom: [5]
+                any:
+                    - { population: { min: 5000000 } }
+                not:
+                    - name: "United States of America"
+            draw:
+                text-blend-order:
+                    priority: 3
+                    visible: global.labels_visible
+                    text_source: function() { if (feature["name:en"] == "People's Republic of China") { return "China"; } else { return feature["name:en"] || feature["name"]; }}
+                    font:
+                        fill: '#9C9C9C'
+                        weight: 600
+                        size: 26px
+                        stroke: { color: *background, width: 4 }
+            early-ones-z5:
+                filter: { name: [Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,El Salvador,Belize,België - Belgique - Belgien], $zoom: {min: 5, max: 6} }
+                draw:
+                    text-blend-order:
+                        visible: global.labels_visible
+        country-z6:
+            # South Ossetia and Abkhazia aren't countries (they are disputed areas)
+            filter: { name: true, kind: [country], $zoom: [6], not: { name: "United States of America" } }
+            draw:
+                text-blend-order:
+                    priority: 3
+                    visible: global.labels_visible
+                    text_source: function() { if (feature["name:en"] == "People's Republic of China") { return "China"; } else { return feature["name:en"] || feature["name"]; }}
+                    font:
+                        size: 26px
+                        weight: 600
+                        fill: '#9C9C9C'
+                        stroke: { color: *background, width: 4 }
+            small-ones-z6:
+                filter: { name: [Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,België - Belgique - Belgien,Хуссар Ирыстон,Аҧсны - Абхазия], $zoom: {min: 6, max: 7} }
+                draw:
+                    text-blend-order:
+                        visible: global.labels_visible
+        country-z7:
+            # South Ossetia and Abkhazia aren't countries (they are disputed areas)
+            filter: { name: true, kind: [country], $zoom: { min: 7, max: 9 }, not: { name: ["United States of America", "Приднестровье"] } }
+            draw:
+                text-blend-order:
+                    priority: 3
+                    visible: global.labels_visible
+                    text_source: function() { if (feature["name:en"] == "People's Republic of China") { return "China"; } else { return feature["name:en"] || feature["name"]; }}
+                    font:
+                        size: 20px
+                        weight: 600
+                        fill: '#9C9C9C'
+                        stroke: { color: *background, width: 4 }
+            small-ones-z7:
+                filter: { name: [Liechtenstein,San Marino,Civitatis Vaticanæ,Хуссар Ирыстон,Аҧсны - Абхазия], $zoom: {min: 7, max: 8} }
+                draw:
+                    text-blend-order:
+                        visible: global.labels_visible
+        regionz5-6:
+            filter: { name: ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"], kind: [region], $zoom: {min: 5, max: 7} }
+            draw:
+                text-blend-order:
+                    priority: 5
+                    visible: global.labels_visible
+                    text_source: [name:en, name]
+                    text_wrap: 10
+                    font:
+                        transform: uppercase
+                        size: 30px
+                        weight: 200
+                        fill: [0.5,0.5,0.5,0.5]
+                        stroke: { color: *background, width: 4 }
+        regionz7-9:
+            filter: { name: true, kind: [region], $zoom: {min: 7, max: 9} }
+            draw:
+                text-blend-order:
+                    priority: 5
+                    visible: global.labels_visible
+                    text_source: function() { if(feature["name:short"]) { return feature["name"]; } else { return ""; } }
+                    font:
+                        size: 30px
+                        weight: 200
+                        fill: [0.5,0.5,0.5,0.5]
+                        stroke: { color: *background, width: 4 }
+                        transform: uppercase
+            small-ones:
+                filter: { name: ["Delaware","New Jersey","Connecticut","Rhode Island","Massachusetts","New Hampshire","Vermont"], $zoom: {min: 7, max: 8} }
+                draw:
+                    text-blend-order:
+                        text_source: function() { return feature["name:abbreviation"] || feature["name"]; }
+                        font: { transform: uppercase }
+
+        populated-places:
+            filter: { kind: locality }
+            draw:
+                text-blend-order:
+                    # interactive: true
+                    anchor: top
+                    priority: 6
+                    text_source: [name:en, name]
+
+            populated-places-natural-earth-z6:
+                filter: { name: true, source: naturalearthdata.com, $zoom: {min: 6, max: 9} }
+                z3places-1:
+                    filter: { min_zoom: [0] }
+                    draw:
+                        text-blend-order:
+                            visible: global.labels_visible
+                            offset: [0, 3px] # half icon size
+                            font:
+                                size: 24px
+                                fill: '#9C9C9C'
+                                stroke: { color: *background, width: 3 }
+                z4places-2:
+                    filter: { min_zoom: [1,2,3,4,5] }
+                    draw:
+                        text-blend-order:
+                            visible: global.labels_visible
+                            offset: [0, 3px] # half icon size
+                            priority: 8
+                            font:
+                                size: 24px
+                                fill: '#9C9C9C'
+                                stroke: { color: *background, width: 4 }
+            populated-places-osm-z10:
+                filter:
+                    all:
+                        - source: [openstreetmap, openstreetmap.org]
+                        - name: true
+                        - population: { min: 100000 }
+                        - not: { kind: [country, county, region, island, neighbourhood, suburb, quarter] }
+                        - $zoom: {min: 4, max: 11}
+                        - kind: locality
+                draw:
+                    text-blend-order:
+                        # anchor: center
+                        visible: global.labels_visible
+                        offset: [0, 3px] # half icon size
+                        priority: 5
+                        font:
+                            size: [[11,26px],[12,30px]]
+                            fill: '#9C9C9C'
+                            stroke: { color: *background, width: 4 }
+            populated-places-osm-z11:
+                filter:
+                    all:
+                        - source: [openstreetmap, openstreetmap.org]
+                        - name: true
+                        - population: { min: 50000 }
+                        - not: { kind: [country, county, region, island, neighbourhood, suburb, quarter] }
+                        - $zoom: {min: 11, max: 13}
+                        - kind: locality
+                draw:
+                    text-blend-order:
+                        # anchor: center
+                        visible: global.labels_visible
+                        offset: [0, 3px] # half icon size
+                        priority: 16
+                        font:
+                            size: [[11,26px],[12,30px]]
+                            fill: '#9C9C9C'
+                            stroke: { color: *background, width: 4 }
+            populated-places-osm-z13:
+                filter:
+                    all:
+                        - source: [openstreetmap, openstreetmap.org]
+                        - name: true
+                        - population: { min: 100 }
+                        - not: { kind: [country, county, region, island, neighbourhood, suburb, quarter] }
+                        - $zoom: {min: 13, max: 14}
+                        - kind: locality
+                draw:
+                    text-blend-order:
+                        # anchor: center
+                        visible: global.labels_visible
+                        offset: [0, 3px] # half icon size
+                        priority: 16
+                        font:
+                            size: [[11,26px],[12,30px]]
+                            fill: '#9C9C9C'
+                            stroke: { color: *background, width: 4 }
