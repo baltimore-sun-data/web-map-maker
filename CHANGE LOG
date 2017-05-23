@@ -1,0 +1,26 @@
+CHANGE LOG:
+
+I created a new print specific stylesheet. I changed colors to match our styles and cut out a lot of features (more may need to be cut)
+
+Original (now web) stylesheet is called map-style-web.ymla
+
+Print stylesheet is called map-style-print.ymla
+
+Changed 2 functions in app.js
+
+ShowWeb
+Added "-web" to    scene.load('map-styles-web.yaml');
+
+ShowPrint
+Deleted first two lones that change styles
+Added:     scene.load('map-styles-print.yaml');
+
+
+
+(Also had to rename ymla file (add web) in var quietLAlayer )
+
+
+USEAGE:
+
+Use web to create quick web maps
+Use print to create print basemaps. Turn off labels.
