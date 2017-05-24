@@ -86,7 +86,7 @@ var map = L.map('map', {
 
 map.attributionControl.setPrefix(attribution+'Mapzen, OpenStreetMap');
 var quietLAlayer = Tangram.leafletLayer({
-    scene: 'map-styles-web.yaml',
+    scene: 'map-styles.yaml',
     events: {
         // click: function(selection) { console.log('Click!', selection); }
     }
@@ -586,8 +586,8 @@ function showPrint() {
     scene.config.layers.roads.major_road.draw.lines.width[6][1] = '10m';
 
     // bump up size of minor roads
-    scene.config.layers.roads.minor_road.draw.lines.width[1][1] = '0.5px';
-    scene.config.layers.roads.minor_road.draw.lines.width[2][1] = '0.5px';
+    scene.config.layers.roads.minor_road.draw.lines.width[1][1] = '1.5px';
+    scene.config.layers.roads.minor_road.draw.lines.width[2][1] = '1.5px';
 
 
 
@@ -607,7 +607,7 @@ function showPrint() {
 }
 
 function showWeb() {
-    scene.load('map-styles-web.yaml');
+    scene.load('map-styles.yaml');
     buildingsVisible = false;
     // update buttons
     $("#print_btn").removeClass("active");
